@@ -51,6 +51,7 @@ import {
   FIELD_LABELS,
 } from './data/constants';
 import { fetchSiteLanguages } from './site-language';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 import { fetchNotificationPreferences } from '../notification-preferences/data/thunks';
 import NotificationSettings from '../notification-preferences/NotificationSettings';
 import { withLocation, withNavigate } from './hoc';
@@ -786,7 +787,9 @@ const AccountSettingsPage = ({
           </h2>
 
           <BetaLanguageBanner />
-          <EditableSelectField
+          <LanguageSwitcher />
+          {/* <LanguageSwitcher reloadOnChange /> */}
+          {/* <EditableSelectField
             name="siteLanguage"
             type="select"
             options={props.siteLanguageOptions}
@@ -794,7 +797,7 @@ const AccountSettingsPage = ({
             label={intl.formatMessage(messages['account.settings.field.site.language'])}
             helpText={intl.formatMessage(messages['account.settings.field.site.language.help.text'])}
             {...editableFieldProps}
-          />
+          /> */}
           <EditableSelectField
             name="time_zone"
             type="select"

@@ -1,0 +1,27 @@
+.language-selector {
+  text-align: right;
+
+  .language-item {
+    color: #64656B;
+    font-size: 12px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    margin-right: 12px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &.active {
+      color: #0a0a0a;
+      text-decoration: underline;
+    }
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+}
+
+

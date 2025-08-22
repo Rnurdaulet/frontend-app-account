@@ -2,10 +2,22 @@ import { getConfig, snakeCaseObject } from '@edx/frontend-platform';
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import snakeCase from 'lodash.snakecase';
 
+const buildConfigurationsUrl = (apiVersion) => (
+  `${getConfig().LMS_BASE_URL}/api/notifications/${apiVersion}/configurations/`
+);
+
 export const getNotificationPreferences = async () => {
-  const url = `${getConfig().LMS_BASE_URL}/api/notifications/v2/configurations/`;
-  const { data } = await getAuthenticatedHttpClient().get(url);
-  return data;
+  const client = getAuthenticatedHttpClient();
+  try {
+    const { data } = await client.get(buildConfigurationsUrl('v2'));
+    return data;
+  } catch (error) {
+    if (error?.response?.status === 404) {
+      const { data } = await client.get(buildConfigurationsUrl('v1'));
+      return data;
+    }
+    throw error;
+  }
 };
 
 export const postPreferenceToggle = async (
@@ -22,7 +34,15 @@ export const postPreferenceToggle = async (
     value,
     emailCadence,
   });
-  const url = `${getConfig().LMS_BASE_URL}/api/notifications/v2/configurations/`;
-  const { data } = await getAuthenticatedHttpClient().put(url, patchData);
-  return data;
+  const client = getAuthenticatedHttpClient();
+  try {
+    const { data } = await client.put(buildConfigurationsUrl('v2'), patchData);
+    return data;
+  } catch (error) {
+    if (error?.response?.status === 404) {
+      const { data } = await client.put(buildConfigurationsUrl('v1'), patchData);
+      return data;
+    }
+    throw error;
+  }
 };
